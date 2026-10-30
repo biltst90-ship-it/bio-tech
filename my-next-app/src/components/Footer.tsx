@@ -169,9 +169,12 @@ export default function Footer() {
             </div>
             <div className="flex items-center gap-2">
               <MailIcon size={18} className="text-gold-accent" />
-              <Link href="projects@biotech-int.com">
+              <a
+                href="mailto:projects@biotech-int.com"
+                className="hover:text-gold-accent transition"
+              >
                 projects@biotech-int.com
-              </Link>
+              </a>
             </div>
             <h3 className="text-xl font-semibold mb-4 mt-8">
               Connect with us online

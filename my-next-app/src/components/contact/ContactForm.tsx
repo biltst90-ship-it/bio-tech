@@ -1,16 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
-import { Send, CheckCircle } from "lucide-react";
+import React, { useState, useRef } from "react";
+import { Send, CheckCircle, AlertCircle } from "lucide-react";
+import emailjs from "@emailjs/browser";
+import ReCAPTCHA from "react-google-recaptcha";
 import Button from "../ui/Button";
 import { Input } from "../ui/Input";
 import { Select } from "../ui/Select";
 import { TextArea } from "../ui/TextArea";
+
 export const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  4;
-  const [showLoader, setShowLoader] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [formData, setFormData] = useState({
     fullName: "",
     company: "",
@@ -21,6 +25,7 @@ export const ContactForm = () => {
     message: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -31,63 +36,72 @@ export const ContactForm = () => {
       ...prev,
       [name]: value,
     }));
+    if (submitError) setSubmitError(null);
     // Clear error when user types
     if (errors[name]) {
       setErrors((prev) => {
-        const newErrors = {
-          ...prev,
-        };
+        const newErrors = { ...prev };
         delete newErrors[name];
         return newErrors;
       });
     }
   };
+
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
-    } 
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
     if (!formData.message.trim())
       newErrors.message = "Please enter your message";
+    if (!captchaToken)
+      newErrors.captcha = "Please complete the reCAPTCHA verification";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
+
     setIsSubmitting(true);
-    setShowLoader(true);
-    // Simulate API call
-    const phoneNumber = "9899987903";
+    setSubmitError(null);
 
-    const text = `
-*New Enquiry Form Submission*
+    const serviceId =
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_gxwp9lr";
+    const templateId =
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_7flq5b6";
+    const publicKey =
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "KYJx_rUIHX9fjFQGT";
 
- Name: ${formData.fullName}
- Company: ${formData.company}
- Country: ${formData.country}
- Email: ${formData.email}
- Phone: ${formData.phone}
- Category: ${formData.productCategory}
- Message: ${formData.message}
-`;
+    try {
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          full_name: formData.fullName,
+          name: formData.fullName,
+          from_name: formData.fullName,
+          email: formData.email,
+          from_email: formData.email,
+          reply_to: formData.email,
+          title: `New Enquiry from ${formData.fullName} (${formData.productCategory || "General"})`,
+          company: formData.company || "Not provided",
+          country: formData.country || "Not provided",
+          phone: formData.phone || "Not provided",
+          product_category: formData.productCategory || "General Inquiry",
+          message: formData.message,
+          "g-recaptcha-response": captchaToken,
+        },
+        publicKey,
+      );
 
-    const encodedText = encodeURIComponent(text);
-    const url = `https://wa.me/${phoneNumber}?text=${encodedText}`;
-
-    // 👇 small delay for smooth UX
-    setTimeout(() => {
-      window.open(url, "_blank");
-
-      setShowLoader(false); // 👈 loader stop
-      setIsSubmitting(false);
       setIsSuccess(true);
-    }, 1500);
-
-    // Reset form after delay
-    setTimeout(() => {
-      setIsSuccess(false);
+      recaptchaRef.current?.reset();
+      setCaptchaToken(null);
       setFormData({
         fullName: "",
         company: "",
@@ -97,14 +111,23 @@ export const ContactForm = () => {
         productCategory: undefined,
         message: "",
       });
-    }, 5000);
+    } catch (err: unknown) {
+      console.error("EmailJS submission failed:", err);
+      recaptchaRef.current?.reset();
+      setCaptchaToken(null);
+      setSubmitError(
+        "Failed to send your message via email. Please check your network or try again.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
   const productCategories = [
     {
       value: "",
-      label: "select a category",
+      label: "Select a category",
     },
-
     {
       value: "biopesticides",
       label: "Biopesticides",
@@ -134,6 +157,7 @@ export const ContactForm = () => {
       label: "Other Inquiry",
     },
   ];
+
   return (
     <section id="contact-form" className="py-16 bg-molecular">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -142,7 +166,7 @@ export const ContactForm = () => {
           <div className="lg:col-span-3 bg-white rounded-2xl shadow-xl border border-gray-100 p-8 lg:p-10">
             <div className="mb-8">
               <h2 className="text-3xl font-bold text-gray-900">
-                Send us a Message on Whatsapp
+                Send Us an Enquiry
               </h2>
               <p className="mt-3 text-gray-600">
                 Whether you're interested in our biological products, want to
@@ -151,20 +175,28 @@ export const ContactForm = () => {
               </p>
             </div>
 
+            {submitError && (
+              <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3">
+                <AlertCircle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
+                <div className="text-sm text-red-800">
+                  <p className="font-semibold">Submission Error</p>
+                  <p>{submitError}</p>
+                </div>
+              </div>
+            )}
+
             {isSuccess ? (
               <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center animate-fade-in">
                 <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
                   <CheckCircle className="h-8 w-8 text-green-600" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Redirecting to WhatsApp...
+                  Enquiry Sent Successfully!
                 </h3>
-                <p className="text-gray-600">
-                  Please click "Send" in WhatsApp to complete your enquiry.
-                </p>
-                <p className="text-gray-600">
-                  Thank you for contacting Biotech International. Our technical
-                  team will review your enquiry and respond shortly.
+                <p className="text-gray-600 max-w-md mx-auto">
+                  Thank you for reaching out to Biotech International Ltd. Our
+                  team has received your enquiry and will review it and respond
+                  shortly.
                 </p>
                 <Button
                   variant="outline"
@@ -245,7 +277,33 @@ export const ContactForm = () => {
                   rows={5}
                 />
 
-                <div className="pt-2">
+                <div className="pt-2 space-y-4">
+                  <div className="flex flex-col">
+                    <ReCAPTCHA
+                      ref={recaptchaRef}
+                      sitekey={
+                        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ||
+                        "6LfjIAMuAAAAAHUoRY06pc25tYsXFsybq2JgayT8"
+                      }
+                      onChange={(token) => {
+                        setCaptchaToken(token);
+                        if (errors.captcha) {
+                          setErrors((prev) => {
+                            const updated = { ...prev };
+                            delete updated.captcha;
+                            return updated;
+                          });
+                        }
+                      }}
+                      onExpired={() => setCaptchaToken(null)}
+                    />
+                    {errors.captcha && (
+                      <p className="mt-1.5 text-sm text-red-600 font-medium">
+                        {errors.captcha}
+                      </p>
+                    )}
+                  </div>
+
                   <Button
                     type="submit"
                     variant="primary"

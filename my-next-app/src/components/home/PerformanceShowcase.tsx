@@ -5,12 +5,10 @@ import { motion, useInView } from "framer-motion";
 import { TrendingUpIcon, ArrowRightIcon, CheckIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-
 export function PerformanceShowcase() {
   const ref = useRef<HTMLElement | null>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const router = useRouter();
-
 
   return (
     <section className=" bg-white" ref={ref}>
@@ -23,37 +21,13 @@ export function PerformanceShowcase() {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-green-light to-green-primary/10">
-              {/* Before / After Images */}
-              <div className="absolute inset-0 flex">
-                {/* Before */}
-                <div className="relative w-1/2 border-r border-white/50 overflow-hidden">
-                  <img
-                    src="/images/badcrop.png"
-                    alt="Before using biotech solutions"
-                    className="w-full h-full object-cover"
-                  />
-                  <span className="absolute inset-0 flex items-center justify-center">
-                    <span className="bg-white/90 text-gray-700 text-xs font-inter px-4 py-1.5 rounded-full">
-                      Before
-                    </span>
-                  </span>
-                </div>
-
-                {/* After */}
-                <div className="relative w-1/2 overflow-hidden">
-                  <img
-                    src="/images/goodcrop.png"
-                    alt="After using biotech solutions"
-                    className="w-full h-full object-cover"
-                  />
-                  <span className="absolute inset-0 flex items-center justify-center">
-                    <span className="bg-green-primary/90 text-white text-xs font-inter px-4 py-1.5 rounded-full">
-                      After
-                    </span>
-                  </span>
-                </div>
-              </div>
+            <div className="relative aspect-[4/3] sm:aspect-[3/2] rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-green-light to-green-primary/10">
+              {/* Before / After Comparison Image */}
+              <img
+                src="/images/crop-before-after.jpg"
+                alt="Crop yield performance before and after using Biotech solutions"
+                className="w-full h-full object-cover object-center"
+              />
 
               {/* Stats Overlay */}
               <motion.div

@@ -11,7 +11,7 @@
     max-width: 100%;
   }
 }
-hide scrollbar but keep scroll
+/* Hide scrollbar but keep scroll */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }

@@ -35,7 +35,7 @@ export default function Header() {
                 ? "/images/logos/logowhite.png"
                 : "/images/logos/logoblack.png"
             }
-            alt="AgroCorp Logo"
+            alt="Biotech International Logo"
             width={300}
             height={120}
             className={`object-contain w-auto cursor-pointer md:hidden
@@ -47,7 +47,7 @@ export default function Header() {
           {/* Desktop Logo (always black) */}
           <Image
             src="/images/logos/logoblack.png"
-            alt="AgroCorp Logo"
+            alt="Biotech International Logo"
             width={400}
             height={200}
             className="hidden md:block object-contain w-auto h-22 cursor-pointer"
@@ -56,23 +56,45 @@ export default function Header() {
         </Link>
 
         {/* DESKTOP NAV */}
-        <nav className="hidden md:flex gap-8 text-gray-700  font-medium">
-          {navLinks.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="hover:text-green-primary transition"
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav className="hidden md:flex items-center gap-7 text-[15px]">
+          {navLinks.map((item) => {
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname === item.href || pathname.startsWith(item.href + "/");
+
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`relative py-2 transition-colors duration-200 ${
+                  isActive
+                    ? "text-green-primary font-semibold"
+                    : "text-gray-600 hover:text-green-primary font-medium"
+                }`}
+              >
+                {item.label}
+                {isActive && (
+                  <motion.span
+                    layoutId="activeNavIndicator"
+                    className="absolute -bottom-0.5 left-0 right-0 h-[2.5px] bg-green-primary rounded-full"
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 30,
+                    }}
+                  />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* DESKTOP CTA */}
         <div className="hidden md:block">
           <Link
             href="/contact#contact-form"
-            className="bg-green-primary text-white px-5 py-2 rounded-md font-semibold hover:bg-green-800 transition"
+            className="bg-green-primary text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-green-800 shadow-sm hover:shadow-md transition-all"
           >
             Enquire Now
           </Link>
@@ -102,27 +124,44 @@ export default function Header() {
               height: { duration: 0.3, ease: "easeInOut" },
               opacity: { duration: 0.25 },
             }}
-            className="md:hidden overflow-hidden mx-4 bg-white rounded-xl shadow-xl"
+            className="md:hidden overflow-hidden mx-4 bg-white rounded-2xl shadow-2xl border border-gray-100"
           >
-            <div className="px-6 py-6 space-y-5">
-              {navLinks.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="block text-lg font-medium text-gray-800"
-                >
-                  {item.label}
-                </Link>
-              ))}
+            <div className="px-5 py-6 space-y-2">
+              {navLinks.map((item) => {
+                const isActive =
+                  item.href === "/"
+                    ? pathname === "/"
+                    : pathname === item.href ||
+                      pathname.startsWith(item.href + "/");
 
-              <Link
-                href="/contact#contact-form"
-                onClick={() => setMenuOpen(false)}
-                className="block text-center bg-green-primary text-white py-3 rounded-md font-semibold text-lg"
-              >
-                Enquire Now
-              </Link>
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-base transition-colors ${
+                      isActive
+                        ? "bg-green-50 text-green-primary font-bold border-l-4 border-green-primary pl-3"
+                        : "text-gray-700 hover:bg-gray-50 hover:text-green-primary font-medium"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {isActive && (
+                      <span className="w-2 h-2 rounded-full bg-green-primary" />
+                    )}
+                  </Link>
+                );
+              })}
+
+              <div className="pt-3">
+                <Link
+                  href="/contact#contact-form"
+                  onClick={() => setMenuOpen(false)}
+                  className="block text-center bg-green-primary text-white py-3 rounded-xl font-semibold text-base shadow-md"
+                >
+                  Enquire Now
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}
