@@ -590,7 +590,7 @@ export const products: Product[] = [
     "subCategory": "biofertilizers",
     "product": "Mycorrhizal soil fungi (Vesicular Arbuscular Mycorrhiza – VAM)",
     "tradeName": "MYCO-RISE",
-    "formulation": "AS (Aqueous Suspension), WP (Wettable Powder) and GR (Granules).",
+    "formulation": "WP (Wettable Powder) and GR (Granules).",
     "shelfLife": "The shelf life of the product is two years when stored in original package in cool and dry place away from direct sunlight and heat.",
     "ecoSafety": "The product is non-toxic to crop plants, human beings, animals, birds, fishes and all other non-target organisms. No phytotoxicity and exempted from residue analysis.",
     "packing": "WP: 100gm, 250gm, 500gm and 1.0 kg. in boxes are further packed in 10.0 kg. Carton. | GR: 4.0 kg Polyester bags.",
