@@ -88,7 +88,7 @@ export const products: Product[] = [
     "shelfLife": "Minimum two (2) yrs. The product must be kept in its original properly labelled packing well sealed and stored in dry ventilated room at temperature not exceeding 45°C. Room should be well built, dry, well ventilated, well lit and of sufficient dimensions.",
     "ecoSafety": "Extremely safe to non-target species including mammals, human beings, parasites and predators of mosquito larvae, insects, hydrobionts, fishes, birds, flora fauna. A low hazardous (Green label) biolarvicide.",
     "packing": "500 gm. 1 Kg. 5 Kg. in Trilaminated aluminium foil pouches packed in Cartons",
-    "image": "/images/products/Public Health/Products/p1.jpg",
+    "image": "/images/products/PublicHealth/Products/p1.jpg",
     "banner": "/images/products/PublicHealth/Banner/b1.jpg",
     "activeIngredient": [
       "Parasporal crystal containing Deltaendotoxin (5-8%)",
@@ -113,7 +113,7 @@ export const products: Product[] = [
     "shelfLife": "Minimum two (2) yrs. The product must be kept in its original properly labelled packing well sealed and stored in dry ventilated room at temperature not exceeding 45°C. Room should be well built, dry, well ventilated, well-lit and of sufficient dimensions.",
     "ecoSafety": "Extremely safe to non-target species including mammals, human beings, parasites and predators of mosquito larvae, insects, hydrobionts, fishes, birds, flora fauna. A low hazardous (Green label) biolarvicide.",
     "packing": "25 tablets of 400 mg packed in HDPE container of 10gm. 50 tablets of 400 mg packed in HDPE container of 20gm. 100 tablets of 400 mg packed in HDPE container of 40gm. 250 tablets of 400 mg packed in HDPE container of 100gm.",
-    "image": "/images/products/Public Health/Products/p2.jpg",
+    "image": "/images/products/PublicHealth/Products/p2.jpg",
     "banner": "/images/products/PublicHealth/Banner/b2.jpg",
     "activeIngredient": [
       "Parasporal crystal containing Delta endotoxin 2.5%",
@@ -138,7 +138,7 @@ export const products: Product[] = [
     "shelfLife": "Minimum two (2) yrs. The product must be kept in its original properly labelled packing well sealed and stored in dry ventilated room at temperature not exceeding 45°C. Room should be well built, dry, well ventilated, well lit and of sufficient dimensions.",
     "ecoSafety": "Extremely safe to non-target species including mammals, human beings, parasites and predators of mosquito larvae, insects, hydrobionts, fishes, birds, flora fauna. A low hazardous (Green label) biolarvicide.",
     "packing": "100 ml, 250 ml, 500 ml, 1 Litre &5 Litre in HDPE bottles and further packed in Cartons.",
-    "image": "/images/products/Public Health/Products/p3.jpg",
+    "image": "/images/products/PublicHealth/Products/p3.jpg",
     "banner": "/images/products/PublicHealth/Banner/b3.jpg",
     "activeIngredient": [
       "Parasporal crystal containing Deltaendotoxin 5%",
@@ -161,7 +161,7 @@ export const products: Product[] = [
     "shelfLife": "Minimum 2-3 years if stored in dark, well-ventilated rooms in original package at temperatures up to 40 C.",
     "ecoSafety": "Extremely safe to non-target species including mammals, human beings, parasites and predators of mosquito larvae, insects, hydrobionts, fishes, birds, CIB classification class IV, low hazardous (Green label) pesticides.",
     "packing": "500 gm. 1 kg. 5 kg. in trilaminated aluminium foil pouches packed in cartons.",
-    "image": "/images/products/Public Health/Products/p4.jpg",
+    "image": "/images/products/PublicHealth/Products/p4.jpg",
     "banner": "/images/products/PublicHealth/Banner/b4.jpg",
     "activeIngredient": [
       "Parasporal crystal containing Delta-endotoxin",
@@ -182,7 +182,7 @@ export const products: Product[] = [
     "formulation": "Impregnated / Normal Bednet",
     "shelfLife": "Efficacious for more than one year, if not washed, handled carefully. In case of washing Re-impregnate soon after washing.",
     "packing": "Individually packed in plastic bags in a bales of 25/50/100 pieces.",
-    "image": "/images/products/Public Health/Products/p5.jpg",
+    "image": "/images/products/PublicHealth/Products/p5.jpg",
     "banner": "/images/products/PublicHealth/Banner/b5.jpg",
     "screenshots": {
       "spectrum": "/images/ss/publichealth-bednet-1.png",
