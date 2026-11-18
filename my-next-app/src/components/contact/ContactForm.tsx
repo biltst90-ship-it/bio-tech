@@ -14,6 +14,7 @@ export const ContactForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaError, setCaptchaError] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -57,7 +58,7 @@ export const ContactForm = () => {
     }
     if (!formData.message.trim())
       newErrors.message = "Please enter your message";
-    if (!captchaToken)
+    if (!captchaToken && !captchaError)
       newErrors.captcha = "Please complete the reCAPTCHA verification";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -281,6 +282,7 @@ export const ContactForm = () => {
                   <div className="flex flex-col">
                     <ReCAPTCHA
                       ref={recaptchaRef}
+                      onErrored={() => setCaptchaError(true)}
                       sitekey={
                         process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ||
                         "6LfjIAMuAAAAAHUoRY06pc25tYsXFsybq2JgayT8"

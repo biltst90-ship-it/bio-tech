@@ -25,6 +25,7 @@ export function EnquiryForm({
   const [isSuccess, setIsSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaError, setCaptchaError] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const [formData, setFormData] = useState({
@@ -74,7 +75,7 @@ export function EnquiryForm({
     if (!formData.message.trim()) {
       newErrors.message = "Please enter your message or requirements";
     }
-    if (recaptchaSiteKey && !captchaToken) {
+    if (recaptchaSiteKey && !captchaToken && !captchaError) {
       newErrors.captcha = "Please complete the reCAPTCHA verification";
     }
     setErrors(newErrors);
@@ -258,6 +259,7 @@ export function EnquiryForm({
           <ReCAPTCHA
             ref={recaptchaRef}
             sitekey={recaptchaSiteKey}
+            onErrored={() => setCaptchaError(true)}
             onChange={(token) => {
               setCaptchaToken(token);
               if (errors.captcha) {
