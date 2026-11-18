@@ -41,6 +41,14 @@ Bio-Tech/
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## 🔐 Environment Variables & API Keys Setup
+
+To enable the Contact Form and Product Enquiry Modal to send real emails to your company inbox, configure your `.env.local` file:
+
+- **Complete Step-by-Step Guide:** [ENV_SETUP_GUIDE.md](ENV_SETUP_GUIDE.md) — includes full walkthroughs on how to create accounts and get keys for:
+  - **EmailJS** (Service ID, Template ID, Public Key)
+  - **Google reCAPTCHA v2** (Site Key, Secret Key)
+
 ## ☁️ Deployment (Vercel)
 
 This project is deployed on Vercel. Since the Next.js app is inside the `my-next-app` subfolder (not the repo root), the following project setting is required:
