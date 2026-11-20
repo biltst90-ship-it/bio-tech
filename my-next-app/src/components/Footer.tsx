@@ -3,13 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MapPinIcon, PhoneIcon, MailIcon } from "lucide-react";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-  FaYoutube,
-  FaFax,
-} from "react-icons/fa";
+import { FaLinkedinIn } from "react-icons/fa";
 import Image from "next/image";
 import { useState } from "react";
 import Loader from "@/components/ui/Loader";
@@ -181,9 +175,15 @@ export default function Footer() {
             </h3>
             {/* Social Icons */}
             <div className="flex gap-4 mt-3">
-              <Link href="#" className="hover:text-gold-accent">
+              <a
+                href="https://www.linkedin.com/company/biotech-int/posts/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="hover:text-gold-accent transition-colors text-xl"
+              >
                 <FaLinkedinIn />
-              </Link>
+              </a>
             </div>
           </div>
         </div>

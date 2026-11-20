@@ -14,7 +14,7 @@ const socials: SocialItem[] = [
   {
     name: "LinkedIn",
     icon: <Linkedin className="h-6 w-6" />,
-    url: "https://www.linkedin.com/company/biotech-international-limited",
+    url: "https://www.linkedin.com/company/biotech-int/posts/",
     color: "hover:text-[#0077b5] hover:border-[#0077b5]",
   },
   // {
